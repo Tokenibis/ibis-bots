@@ -1,0 +1,31 @@
+{
+  "<shoutout_username>": {
+    "class": "bots.shoutout.bot.ShoutoutBot",
+    "password": "<password>",
+    "args": {
+      "reward_amount": 500
+    }
+  },
+  "<last_word_username>": {
+    "class": "bots.last_word.bot.LastWordBot",
+    "password": "<password>",
+    "args": {
+      "countdown_days": 7,
+      "reward_min": 2000,
+      "reward_increment": 500,
+      "reward_max": 100000
+    }
+  },
+  "<dilemma_username>": {
+    "class": "bots.prisoners_dilemma.bot.PrisonersDilemmaBot",
+    "password": "<password>",
+    "args": {
+      "min_players": 2,
+      "duration_hours": 0,
+      "amount_cooperate": 1000,
+      "amount_defect": 500,
+      "amount_win": 1500,
+      "amount_lose": 1
+    }
+  }
+}
