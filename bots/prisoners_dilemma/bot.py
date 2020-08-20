@@ -7,9 +7,9 @@ from ibots import utils
 ACTIVITY_TITLE = 'Prisoner\'s Dilemma: Round {}'
 
 ACTIVITY_DESCRIPTION = '''Ah, prisoner\'s dilemma—game theory\'s poster-child for
-understanding nuclear deterence, evolution, and life—now available as
-a low-budget knock-off on Token Ibis. Learn more
-[here](https://en.wikipedia.org/wiki/Prisoner%27s_dilemma) puzzle.
+understanding nuclear deterence, evolution, and life as we know it—now
+available as a low-budget knock-off on Token Ibis. Learn more
+[here](https://en.wikipedia.org/wiki/Prisoner%27s_dilemma).
 
 ### Scenario
 
