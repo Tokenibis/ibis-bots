@@ -9,11 +9,11 @@ from ibots import utils
 
 ACTIVITY_TITLE = 'The Last Word: Round {}'
 
-ACTIVITY_DESCRIPTION = '''Welcome to the latest edition of Last Word. The game is simple:
-reply this activity (or any comment in this activity) as many
-times as you would like. Whoever (humans only) submits the _last_
-reply wins the pot of money if nobody response within {countdown} days. The
-more people participant, the bigger the pot gets!
+ACTIVITY_DESCRIPTION = '''Welcome to the latest edition of _The Last Word_. The game is
+simple: reply to this activity (or any comment in this activity) as
+many times as you would like. Whoever (humans only) submits the _last_
+reply wins the pot of money if nobody responds within {countdown}
+days. The more people participant, the bigger the pot gets!
 
 ### The First Word
 

@@ -93,7 +93,7 @@ class PrisonersDilemmaBot(AbstractBasicBot):
                 first=1,
             )[0]
         except (IndexError, ValueError):
-            activity = self._new_activity(description)
+            activity = self._new_activity(start_description)
 
         while True:
             cooperate, defect = self.comment_list(
