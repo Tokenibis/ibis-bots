@@ -12,7 +12,7 @@ using Token Ibis's mention feature, something like:
 
 > Hey @{username}, great job shouting people out.
 
-{name} will send the recipient ${amount} as a reward until funds run
+{name} will send the recipient {amount} as a reward until funds run
 out.
 
 ### Rules

@@ -13,7 +13,7 @@ ACTIVITY_DESCRIPTION = '''Welcome to the latest edition of _The Last Word_. The 
 simple: reply to this activity (or any comment in this activity) as
 many times as you would like. Whoever (humans only) submits the _last_
 reply wins the pot of money if nobody responds within {countdown}
-days. The more people participant, the bigger the pot gets!
+days. The more people participate, the bigger the pot gets!
 
 ### The First Word
 
@@ -66,7 +66,7 @@ class LastWordBot(AbstractBasicBot):
             )
 
             if not comments:
-                self.api_wait()
+                self.api_wait(timeout=3600 * 24 * countdown_days)
                 continue
 
             num_participants = len(
@@ -113,7 +113,7 @@ class LastWordBot(AbstractBasicBot):
                     id=activity['id'],
                     description='{}\n\n—\n\n{}'.format(
                         description,
-                        'Congratulations, @{}. Time to make [rain]({})!'.
+                        'Congratulations, @{}. Here is your well-earned [reward]({})!'.
                         format(
                             comments[-1]['user']['username'],
                             self.get_app_link(reward['id']),
@@ -128,7 +128,7 @@ class LastWordBot(AbstractBasicBot):
                     countdown=countdown_days,
                 )
 
-            self.api_wait()
+            self.api_wait(timeout=3600 * 24 * countdown_days)
 
     def _new_activity(self, reward_amount, end, countdown):
         self.refresh_node()
