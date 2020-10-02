@@ -1,4 +1,3 @@
-import os
 import json
 
 from ibots import utils
@@ -89,14 +88,31 @@ class ShoutoutBot(AbstractBasicBot):
                             related_activity=activity['id'],
                         )
 
+            activity_time = utils.localtime(activity['created'])
+            now_time = utils.localtime()
+
             # if the activity is closed, start a new one
-            if utils.localtime(activity['created']).month != utils.localtime(
-            ).month or utils.localtime(
-                    activity['created']).year != utils.localtime().year:
+            if activity_time.month != now_time.month or activity_time.year != now_time.year:
                 self.activity_update(id=activity['id'], active=False)
                 activity = self._new_activity(reward_amount)
 
-            self.api_wait()
+            if activity_time.month == 12:
+                next_time = now_time.replace(
+                    year=now_time.year + 1,
+                    month=1,
+                    day=1,
+                    second=0,
+                    microsecond=0,
+                )
+            else:
+                next_time = now_time.replace(
+                    month=now_time.month + 1,
+                    day=1,
+                    second=0,
+                    microsecond=0,
+                )
+
+            self.api_wait((next_time - now_time).total_seconds())
 
     def _new_activity(self, reward_amount):
         activity = self.activity_create(
