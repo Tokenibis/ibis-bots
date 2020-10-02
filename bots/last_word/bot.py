@@ -13,7 +13,8 @@ ACTIVITY_DESCRIPTION = '''Welcome to the latest edition of _The Last Word_. The 
 simple: reply to this activity (or any comment in this activity) as
 many times as you would like. Whoever (humans only) submits the _last_
 reply wins the pot of money if nobody responds within {countdown}
-days. The more people participate, the bigger the pot gets!
+days. The more people participate and the longer it goes on, the
+bigger the pot gets!
 
 ### The First Word
 
@@ -74,7 +75,10 @@ class LastWordBot(AbstractBasicBot):
                     if x['user']['user_type'] == 'Person'))
             last_time = utils.localtime(comments[-1]['created'])
             reward_amount = min(
-                reward_min + reward_increment * num_participants,
+                reward_min + reward_increment * num_participants +
+                reward_increment * round(
+                    (last_time - utils.localtime(activity['created'])).days /
+                    7),
                 reward_max,
             )
 
@@ -113,8 +117,8 @@ class LastWordBot(AbstractBasicBot):
                     id=activity['id'],
                     description='{}\n\n—\n\n{}'.format(
                         description,
-                        'Congratulations, @{}. Here is your well-earned [reward]({})!'.
-                        format(
+                        'Congratulations, @{}. Here is your well-earned [reward]({})!'
+                        .format(
                             comments[-1]['user']['username'],
                             self.get_app_link(reward['id']),
                         )),
