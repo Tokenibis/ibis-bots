@@ -27,5 +27,14 @@
       "amount_win": 1500,
       "amount_lose": 1
     }
+  },
+  "<vocabulary_username>": {
+    "class": "bots.vocabulary.bot.VocabularyBot",
+    "password": "<password>",
+    "args": {
+      "reward_amount": 1000,
+      "weekday": "Monday",
+      "recalculate": true
+    }
   }
 }
