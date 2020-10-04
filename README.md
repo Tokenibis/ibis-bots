@@ -6,6 +6,10 @@ This repository contains bot implementations using the ibots package
 
 `$ pip install -e <local ibots package>`
 
+`$ pip install -r requirements.txt`
+
+`$ python -m spacy download en`
+
 Eventually ibots will be a more stable pypi package by the same name
 
 ## Run
