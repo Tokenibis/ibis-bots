@@ -96,7 +96,7 @@ class PrisonersDilemmaBot(AbstractBasicBot):
             activity = self._new_activity(start_description)
 
         while True:
-            cooperate, defect = self.comment_list(
+            defect, cooperate = self.comment_list(
                 user=self.id,
                 parent=activity['id'],
                 order_by='created',
