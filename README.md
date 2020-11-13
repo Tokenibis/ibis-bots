@@ -10,6 +10,8 @@ This repository contains bot implementations using the ibots package
 
 `$ python -m spacy download en`
 
+`$ python -m nltk.downloader words`
+
 Eventually ibots will be a more stable pypi package by the same name
 
 ## Run

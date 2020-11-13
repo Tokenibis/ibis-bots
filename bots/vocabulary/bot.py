@@ -3,24 +3,29 @@ import spacy
 import random
 
 from datetime import timedelta
+from nltk.corpus import words
 from ibots import utils
 from ibots.base import AbstractBasicBot
 
-ACTIVITY_TITLE = 'Donor Vocabulary'
+WORDS = set(words.words())
 
-ACTIVITY_DESCRIPTION = '''Vocabulary Bot rewards Token Ibis users who deploy kickass language
-skills in our fight to change the world. Every week (starting
-{weekday}), if you use a new word that Vocabulary Bot has never seen
-before, you'll have a chance to earn a reward for your
-[sesquipedalian](https://www.vocabulary.com/dictionary/sesquipedalian)
+ACTIVITY_TITLE = 'Collective Vocabulary'
+
+ACTIVITY_DESCRIPTION = '''Vocabulary Bot rewards users who make an impact using awesome
+language skills. Every week (starting {weekday}), if you use a new
+word that Vocabulary Bot has never seen before in a donation
+description, you'll have a chance to earn a reward for your
+[sesquipedalian](https://www.merriam-webster.com/dictionary/sesquipedalian)
 prowess.
 
-## Previous Winners
+## Vocabulary Winners
 
 {reward_recipients}
 
-## Word Counts
+## Vocabulary Words
 
+| Word | Count |
+|:-----|:------|
 {word_count}
 '''
 
@@ -52,7 +57,12 @@ class VocabularyBot(AbstractBasicBot):
             )
 
         if recalculate or not activity['scratch']:
-            epoch_start = self._epoch_start(utils.localtime())
+            if recalculate and activity['scratch']:
+                epoch_start = utils.localtime(
+                    json.loads(activity['scratch'])['epoch_start'])
+            else:
+                epoch_start = self._epoch_start(utils.localtime())
+
             activity = self._update_activity(
                 activity['id'], {
                     'epoch_start':
@@ -156,13 +166,17 @@ class VocabularyBot(AbstractBasicBot):
             title=ACTIVITY_TITLE,
             description=ACTIVITY_DESCRIPTION.format(
                 weekday=self.weekday,
-                reward_recipients='\n'.join('* {}: [{}]({})'.format(
+                reward_recipients='\n'.join('* [{}]({}) — [{}]({})'.format(
                     x['user_name'],
+                    self.get_app_link(x['user_id']),
                     x['word'],
                     self.get_app_link(x['reward_id']),
                 ) for x in scratch['reward_recipients']),
                 word_count='\n'.join(
-                    '* _{}:_ {}'.format(word, count) for word, count in sorted(
+                    '| {}&nbsp;&nbsp;&nbsp;&nbsp;| {} |'.format(
+                        word,
+                        count,
+                    ) for word, count in sorted(
                         [x for x in scratch['word_count'].items()],
                         key=lambda x: x[1],
                         reverse=True,
@@ -190,8 +204,9 @@ class VocabularyBot(AbstractBasicBot):
             for token in doc:
                 if token.is_alpha and not token.is_stop:
                     word = token.lemma_.lower()
-                    if word not in count:
-                        count[word] = 0
-                    count[word] += 1
+                    if word in WORDS:
+                        if word not in count:
+                            count[word] = 0
+                        count[word] += 1
 
         return count
