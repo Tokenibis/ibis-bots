@@ -2,7 +2,6 @@ import json
 import spacy
 import random
 
-from datetime import timedelta
 from nltk.corpus import words
 from ibots import utils
 from ibots.base import AbstractBasicBot
@@ -61,7 +60,10 @@ class VocabularyBot(AbstractBasicBot):
                 epoch_start = utils.localtime(
                     json.loads(activity['scratch'])['epoch_start'])
             else:
-                epoch_start = self._epoch_start(utils.localtime())
+                epoch_start = utils.epoch_start(
+                    self.weekday,
+                    utils.localtime(),
+                )
 
             activity = self._update_activity(
                 activity['id'], {
@@ -88,7 +90,7 @@ class VocabularyBot(AbstractBasicBot):
         scratch = json.loads(activity['scratch'])
 
         while True:
-            epoch_start = self._epoch_start(utils.localtime())
+            epoch_start = utils.epoch_start(self.weekday, utils.localtime())
 
             # if we have moved on to a new epoch
             if epoch_start > utils.localtime(scratch['epoch_start']):
@@ -155,7 +157,8 @@ class VocabularyBot(AbstractBasicBot):
             # wait until the start of the next epoch
             now = utils.localtime()
             self.api_wait(
-                timeout=(self._epoch_start(
+                timeout=(utils.epoch_start(
+                    self.weekday,
                     now,
                     offset=1,
                 ) - now).total_seconds())
@@ -186,16 +189,6 @@ class VocabularyBot(AbstractBasicBot):
             reward_min=self.reward_amount,
         )
         return activity
-
-    def _epoch_start(self, time, offset=0):
-        return (time - timedelta(
-            days=(
-                (time.weekday() - utils.WEEKDAYS.index(self.weekday)) %
-                len(utils.WEEKDAYS)) - offset * len(utils.WEEKDAYS))).replace(
-                    hour=0,
-                    second=0,
-                    microsecond=0,
-                )
 
     def _word_count(self, descriptions):
         count = {}
