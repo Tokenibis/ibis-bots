@@ -55,7 +55,7 @@ class StreakBot(AbstractBasicBot):
             now = utils.localtime()
 
             # only execute logic if Streak Bot hasn't made a reward this epoch
-            if True or not self.reward_list(
+            if not self.reward_list(
                     user=self.id,
                     created_after=str(utils.epoch_start(reward_weekday, now))):
                 self.logger.debug('here')
@@ -90,7 +90,10 @@ class StreakBot(AbstractBasicBot):
                         'amount': amount,
                     })
 
-                leaderboard.sort(key=lambda x: x['streak'], reverse=True)
+                leaderboard.sort(
+                    key=lambda x: (x['streak'], x['amount']),
+                    reverse=True,
+                )
 
                 self.logger.debug('Leaderboard: ' + json.dumps(leaderboard))
 
