@@ -11,8 +11,10 @@ will randomly select a reward recipient from everyone who has made
 donations for {minimum_streak} or more consecutive weeks worth
 ${amount} for each week.
 
-## Streaks
+## Active Streaks
 
+| Weeks &nbsp; &nbsp; &nbsp; | Dollars &nbsp; &nbsp; &nbsp; | Donor &nbsp; &nbsp; &nbsp; |
+|:-|:-|:-|
 {streaks}
 
 '''
@@ -53,7 +55,7 @@ class StreakBot(AbstractBasicBot):
             now = utils.localtime()
 
             # only execute logic if Streak Bot hasn't made a reward this epoch
-            if not self.reward_list(
+            if True or not self.reward_list(
                     user=self.id,
                     created_after=str(utils.epoch_start(reward_weekday, now))):
                 self.logger.debug('here')
@@ -95,14 +97,14 @@ class StreakBot(AbstractBasicBot):
                 # update activity with new streak information
                 activity = self.activity_update(
                     id=activity['id'],
+                    title=ACTIVITY_TITLE,
                     description=ACTIVITY_DESCRIPTION.format(
                         minimum_streak=minimum_streak,
                         amount='{:.2f}'.format(reward_multiplier / 100),
-                        streaks='\n'.join('* [{}]({}): {} (${:.2f})'.format(
-                            x['user']['name'],
-                            self.get_app_link(x['user']['id']),
+                        streaks='\n'.join('| {} | ${:.2f} | @{} |'.format(
                             x['streak'],
                             x['amount'] / 100,
+                            x['user']['username'],
                         ) for x in leaderboard),
                     ),
                     reward_min=reward_multiplier * minimum_streak,
