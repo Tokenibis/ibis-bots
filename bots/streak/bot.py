@@ -4,14 +4,17 @@ import random
 from ibots import utils
 from ibots.base import AbstractBasicBot
 
-ACTIVITY_TITLE = 'Active Streaks'
+ACTIVITY_TITLE = 'Donation Streaks'
 
-ACTIVITY_DESCRIPTION = '''Consistency is the key to long-term impact. Every week, Streak Bot
-will randomly select a reward recipient from everyone who has made
+ACTIVITY_DESCRIPTION = '''Consistency is the key to progress. Every week, Streak Bot will
+randomly select a reward recipient from everyone who has made
 donations for {minimum_streak} or more consecutive weeks worth
 ${amount} for each week.
 
 ## Active Streaks
+
+Congratulations to Token Ibis's most active users. Streak Bot sees and
+appreciates your dedication to consistent impact.
 
 | Weeks &nbsp; &nbsp; &nbsp; | Dollars &nbsp; &nbsp; &nbsp; | Donor &nbsp; &nbsp; &nbsp; |
 |:-|:-|:-|
@@ -58,7 +61,6 @@ class StreakBot(AbstractBasicBot):
             if not self.reward_list(
                     user=self.id,
                     created_after=str(utils.epoch_start(reward_weekday, now))):
-                self.logger.debug('here')
                 leaderboard = []
 
                 # go through all of last week's donations
@@ -103,6 +105,7 @@ class StreakBot(AbstractBasicBot):
                     title=ACTIVITY_TITLE,
                     description=ACTIVITY_DESCRIPTION.format(
                         minimum_streak=minimum_streak,
+                        weekday=reward_weekday,
                         amount='{:.2f}'.format(reward_multiplier / 100),
                         streaks='\n'.join('| {} | ${:.2f} | @{} |'.format(
                             x['streak'],
