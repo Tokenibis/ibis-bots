@@ -162,8 +162,8 @@ class PrisonersDilemmaBot(AbstractBasicBot):
                     p1['_amount'], p2['_amount'] = amount_lose, amount_win
                     p1['_desc'], p2['_desc'] = DESC_LOSE, DESC_WIN
                     conclusion = CONCLUSION_MIXED.format(
-                        name1=p1['name'],
-                        name2=p2['name'],
+                        name1=p2['name'],
+                        name2=p1['name'],
                     )
                 elif not p1['_cooperate'] and p2['_cooperate']:
                     p1['_amount'], p2['_amount'] = amount_win, amount_lose
