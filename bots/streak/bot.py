@@ -81,7 +81,6 @@ class StreakBot(AbstractBasicBot):
                                     )),
                             ))
                 ]:
-                    self.logger.debug('person')
                     streak, amount = self.check_streak(user, now)
                     if streak < minimum_streak:
                         continue
@@ -135,13 +134,13 @@ class StreakBot(AbstractBasicBot):
                         ),
                     )
 
-            # wait until next Wednesday
+            # wait until next reward day
             self.api_wait(
                 timeout=(utils.epoch_start(
                     reward_weekday,
                     now,
                     offset=1,
-                ) - now).total_seconds())
+                ) - now).total_seconds() + 1)
 
     def check_streak(self, user, now):
         offset = 0
