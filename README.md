@@ -12,6 +12,11 @@ This repository contains bot implementations using the ibots package
 
 `$ python -m nltk.downloader words`
 
+`$ python bots/story/download_model.py <model_name>`
+
+The `<model_name>` match should StoryBot's configuration. Valid model
+names are 124M, 355M, 774M, and 1558M.
+
 Eventually ibots will be a more stable pypi package by the same name
 
 ## Run
