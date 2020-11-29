@@ -91,7 +91,7 @@ class StoryBot(AbstractBasicBot):
         try:
             intro = self.activity_list(
                 user=self.id,
-                active=True,
+                active=False,
                 first=1,
                 order_by='created',
             )[0]
@@ -100,7 +100,7 @@ class StoryBot(AbstractBasicBot):
                 title=INTRO_TITLE,
                 description='Generating initial story...',
                 reward_min=0,
-                active=True,
+                active=False,
                 scratch=json.dumps({
                     'type': 'toc',
                     'pages': []
@@ -137,7 +137,11 @@ class StoryBot(AbstractBasicBot):
 
         while True:
             now = utils.localtime()
-            page, root, slots = self.initiate_page(now, page)
+            page, root, slots = self.initiate_page(
+                now,
+                page,
+                bootstrapping=bootstrapping,
+            )
 
             # if deadline for last slot has passed
             if bootstrapping or utils.localtime(
@@ -211,9 +215,6 @@ class StoryBot(AbstractBasicBot):
                                                       context_length:])
 
                         self.logger.debug('Starting gpt2 generation')
-
-                        with open('context.txt', 'w') as fd:
-                            fd.write(context)
 
                         # call gpt2 using context and other parameters
                         while True:
@@ -326,7 +327,7 @@ class StoryBot(AbstractBasicBot):
                         second=0,
                     ) - now).total_seconds())
 
-    def initiate_page(self, now, page):
+    def initiate_page(self, now, page, bootstrapping=False):
         scratch = json.loads(page['scratch'])
         if scratch['number'] > 1:
             previous = self.activity_list(
@@ -358,8 +359,8 @@ class StoryBot(AbstractBasicBot):
             slots = [
                 self.comment_create(
                     parent=root['id'],
-                    description=SLOT_DESCRIPTION.format(
-                        now.strftime('%B %d, %Y')),
+                    description='__INITIAL ENTRY__' if bootstrapping else
+                    SLOT_DESCRIPTION.format(now.strftime('%B %d, %Y')),
                 )
             ]
 
@@ -419,8 +420,7 @@ class StoryBot(AbstractBasicBot):
                     utils.localtime(x['created']).strftime('%m.%d.%y'),
                     ', '.join(
                         sorted(
-                            set(y['first_name'] for y in x['contributors']
-                                if y['id'] != self.id))),
+                            set(y['first_name'] for y in x['contributors']))),
                 ) for i, x in enumerate(intro_scratch['pages']))),
             scratch=json.dumps(intro_scratch),
         )
