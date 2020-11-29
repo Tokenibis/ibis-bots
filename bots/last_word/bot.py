@@ -62,7 +62,11 @@ class LastWordBot(AbstractBasicBot):
         while True:
 
             comments = sorted(
-                self._flatten(self.comment_tree(root=activity['id'])),
+                [
+                    x for x in self._flatten(
+                        self.comment_tree(root=activity['id']))
+                    if x['user']['user_type'] == 'Person'
+                ],
                 key=lambda x: utils.localtime(x['created']),
             )
 
@@ -70,9 +74,7 @@ class LastWordBot(AbstractBasicBot):
                 self.api_wait(timeout=3600 * 24 * countdown_days)
                 continue
 
-            num_participants = len(
-                set(x['user']['id'] for x in comments
-                    if x['user']['user_type'] == 'Person'))
+            num_participants = len(set(x['user']['id'] for x in comments))
             last_time = utils.localtime(comments[-1]['created'])
             reward_amount = min(
                 reward_min + reward_increment * num_participants +
