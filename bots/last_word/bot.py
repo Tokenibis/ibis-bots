@@ -134,7 +134,10 @@ class LastWordBot(AbstractBasicBot):
                     countdown=countdown_days,
                 )
 
-            self.api_wait(timeout=3600 * 24 * countdown_days)
+            self.api_wait(
+                timeout=(
+                    (last_time + timedelta(seconds=3600 * 24 * countdown_days)
+                     ) - utils.localtime()).total_seconds())
 
     def _new_activity(self, reward_amount, end, countdown):
         self.refresh_node()

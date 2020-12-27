@@ -101,6 +101,8 @@ class ShoutoutBot(AbstractBasicBot):
                     year=now_time.year + 1,
                     month=1,
                     day=1,
+                    hour=0,
+                    minute=0,
                     second=0,
                     microsecond=0,
                 )
@@ -108,11 +110,13 @@ class ShoutoutBot(AbstractBasicBot):
                 next_time = now_time.replace(
                     month=now_time.month + 1,
                     day=1,
+                    hour=0,
+                    minute=0,
                     second=0,
                     microsecond=0,
                 )
 
-            self.api_wait((next_time - now_time).total_seconds())
+            self.api_wait(timeout=(next_time - now_time).total_seconds())
 
     def _new_activity(self, reward_amount):
         activity = self.activity_create(
