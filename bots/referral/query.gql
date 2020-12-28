@@ -1,0 +1,19 @@
+query PersonList($search: String $followedBy: String $followerOf: String $likeFor: String $rsvpFor: String $mentionIn: String $verified: Boolean $orderBy: String = "-date_joined" $first: Int = 25 $after: String) {
+    allPeople(search: $search followedBy: $followedBy followerOf: $followerOf likeFor: $likeFor rsvpFor: $rsvpFor mentionIn: $mentionIn verified: $verified orderBy: $orderBy first: $first after: $after) {
+	edges {
+  	    node {
+		id
+		username
+		name
+		firstName
+		referral
+		verified
+		verifiedOriginal
+  	    }
+	    cursor
+	}
+	pageInfo {
+	    hasNextPage
+	}
+    }
+}
