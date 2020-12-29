@@ -37,4 +37,34 @@
       "recalculate": true
     }
   }
+  "<streak_username>": {
+    "class": "bots.streak.bot.StreakBot",
+    "password": "<password>",
+    "args": {
+      "minimum_streak": 3,
+      "rewards_per_week": 1,
+      "reward_multiplier": 100,
+      "ubp_weekday": "Thursday",
+      "reward_weekday": "Wednesday"
+    }
+  },
+  "<story_username>": {
+    "class": "bots.story.bot.StoryBot",
+    "password": "<password>",
+    "args": {
+      "model": "355M",
+      "reward_amount": 1000,
+      "context_length": 256,
+      "text_length": 128,
+      "page_length": 7
+    }
+  },
+  "<referral_username>": {
+    "class": "bots.referral.bot.ReferralBot",
+    "password": "<password>",
+    "args": {
+      "referrer_amounts": [3200, 1600, 800, 400, 200, 100],
+      "referred_amount": 3200
+    }
+  }
 }
