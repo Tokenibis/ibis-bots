@@ -16,10 +16,10 @@ friend some bonus money. Ground rules:
 
 ## Reward Amounts
 
-Referral Bot will send you a bonsu for any friends that you directly
-refer (Level 1), a small bonus for anyone that your friend refers
+Referral Bot will send you a reward for any friends that you directly
+refer (Level 1), a smaller reward for anyone that your friend refers
 (Level 2), and so on. It's basically a pyramid scheme, except that
-it's for a good cause and Token Ibis foots the bill. #notascam
+Token Ibis pays for it and it helps people. #notascam
 
 Here are the current reward amounts:
 
@@ -39,7 +39,7 @@ Here is the latest referral pyramid:
 
 _If you're not on this list, you probably need to verify your phone number.
 The Token Ibis referral system is also in testing right now, so please
-email __infotokenibis.org__ if you feel there was any error with your
+email __info@tokenibis.org__ if you feel there was any error with your
 referrals. Token Ibis is not doing retroactive referrals at this
 time._
 
@@ -126,7 +126,7 @@ class ReferralBot(AbstractBasicBot):
             def _serialize_pyramid(children, depth=1):
                 return ''.join([
                     '{} @{}\n\n{}'.format(
-                        '⬥&nbsp;&nbsp;&nbsp;&nbsp;' * depth,
+                        'o &nbsp;&nbsp;&nbsp;&nbsp;' * depth,
                         id_lookup[x['id']]['username'],
                         _serialize_pyramid(x['children'], depth=depth + 1),
                     ) for x in children
