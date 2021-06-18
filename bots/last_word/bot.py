@@ -79,8 +79,8 @@ class LastWordBot(AbstractBasicBot):
             reward_amount = min(
                 reward_min + reward_increment * num_participants +
                 reward_increment * round(
-                    (last_time - utils.localtime(activity['created'])).days /
-                    7),
+                    (last_time - utils.localtime(comments[0]['created'])).days
+                    / 7),
                 reward_max,
             )
 
