@@ -1,0 +1,32 @@
+# Used to populate the initial list from https://dbpedia.org/sparql/ 
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbp: <http://dbpedia.org/property/>
+
+SELECT DISTINCT ?day ?date ?label ?link ?abstract
+
+WHERE {
+
+  ?day rdf:type dbo:Holiday .
+  ?day dbp:date ?date .
+  FILTER (datatype(?date) = <http://www.w3.org/2001/XMLSchema#gMonthDay>)
+
+  ?day dbp:scheduling ?scheduling .
+  FILTER(
+	 LCASE(STR(?scheduling)) = STR("same day each year"@en) || 
+	 LCASE(STR(?scheduling)) = STR("same date each year"@en) ||
+	 LCASE(STR(?scheduling)) = STR("same day"@en) ||
+	 LCASE(STR(?scheduling)) = STR("same date"@en)
+	 )
+
+  ?day rdfs:label ?label .
+  FILTER (langMatches(lang(?label),"en"))
+
+  ?day dbo:abstract ?abstract .
+  FILTER (langMatches(lang(?abstract),"en"))
+
+  ?day foaf:isPrimaryTopicOf ?link .
+
+} ORDER BY ?date LIMIT 1000

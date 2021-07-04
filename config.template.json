@@ -66,5 +66,13 @@
       "referrer_amounts": [3200, 1600, 800, 400, 200, 100],
       "referred_amount": 3200
     }
+  },
+  "<holiday_username>": {
+    "class": "bots.holiday.bot.HolidayBot",
+    "password": "<password>",
+    "args": {
+      "reward_amount": 1000,
+      "quantity": 1
+    }
   }
 }
