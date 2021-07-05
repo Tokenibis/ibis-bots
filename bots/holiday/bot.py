@@ -41,18 +41,17 @@ something extra your way._
 
 '''
 
-COMMENT_DESCRIPTION = '''Happy {holiday}! In honor of this holiday, {user} has earned a
-reward from Holiday Bot. Take a look [here]({reward})
-
+REWARD_DESCRIPTION = '''Happy {holiday}, {user}, thanks for [donating]({donation})!
 '''
 
-REWARD_DESCRIPTION = '''Thank you for making a [donation]({donation}) today.
+COMMENT_DESCRIPTION = '''Congratulations, {user} has a earned a [reward]({reward}) from
+Holiday Bot for donating on {holiday}.
+
 {description}
 
----
+_You can learn more [here][1]._
 
-_You can read more about it [here]({link})._
-
+[1]: {link}
 '''
 
 
@@ -141,9 +140,9 @@ class HolidayBot(AbstractBasicBot):
                         reward = self.reward_create(
                             target=donation['user']['id'],
                             description=REWARD_DESCRIPTION.format(
-                                donation=self.get_app_link(donation['id']),
-                                description=holiday['description'],
-                                link=holiday['link'],
+                                holiday=holiday['description'],
+                                user=donation['user']['first_name'],
+                                donation=donation['id'],
                             ),
                             amount=reward_amount,
                             related_activity=activity['id'],
@@ -175,9 +174,11 @@ class HolidayBot(AbstractBasicBot):
                     self.comment_create(
                         parent=reward_scratch['donation'],
                         description=COMMENT_DESCRIPTION.format(
-                            holiday=holiday['name'],
                             user=reward_scratch['user_name'],
                             reward=self.get_app_link(reward['id']),
+                            holiday=holiday['name'],
+                            description=holiday['description'],
+                            link=holiday['link'],
                         ),
                     )
 
@@ -262,7 +263,8 @@ class HolidayBot(AbstractBasicBot):
                 ) for x in scratch['upcoming']),
                 previous='\n'.join(
                     '|{}&nbsp;&nbsp;|[{}]({})&nbsp;&nbsp;|{}|'.format(
-                        str(utils.localtime(x['start']).date()).replace('-', '.'),
+                        str(utils.localtime(x['start']).date()).replace(
+                            '-', '.'),
                         x['name'],
                         x['link'],
                         '[link]({})'.format(x['donation_link'])
