@@ -140,9 +140,9 @@ class HolidayBot(AbstractBasicBot):
                         reward = self.reward_create(
                             target=donation['user']['id'],
                             description=REWARD_DESCRIPTION.format(
-                                holiday=holiday['description'],
+                                holiday=holiday['name'],
                                 user=donation['user']['first_name'],
-                                donation=donation['id'],
+                                donation=self.get_app_link(donation['id']),
                             ),
                             amount=reward_amount,
                             related_activity=activity['id'],
