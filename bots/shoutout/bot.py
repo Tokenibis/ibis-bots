@@ -3,7 +3,10 @@ import json
 from ibots import utils
 from ibots.base import AbstractBasicBot
 
-ACTIVITY_DESCRIPTION = '''Witnessed a random act of kindness? Want to spotlight your bff's
+ACTIVITY_DESCRIPTION = '''
+__ATTENTION__: Due to heightened shoutout participation (yay!), users can only make ONE shoutout per month, so use it wisely!
+
+Witnessed a random act of kindness? Want to spotlight your bff's
 latest feat of awesomeness? Tell the world about it here!
 
 Just reply _directly_ to this activity and mention the recipient
@@ -16,8 +19,8 @@ out.
 
 ### Rules
 
+* You can make one shoutout per month
 * Shoutouts are for humans only
-* You can't shout-out the same person twice in a month
 * Funds aren't infinite, so the earlier the better
 '''
 
@@ -48,10 +51,9 @@ class ShoutoutBot(AbstractBasicBot):
                 for target in mentions:
                     # only give rewards to human recipients that have
                     # not already received one from the same sender
-                    if json.dumps([
-                            comment['user']['id'],
-                            target['id'],
-                    ]) not in [x['scratch'] for x in rewards]:
+                    if comment['user']['id'] not in [
+                            x['scratch'] for x in rewards
+                    ]:
                         # create the reward for the sender
                         reward = self.reward_create(
                             target=target['id'],
@@ -67,10 +69,8 @@ class ShoutoutBot(AbstractBasicBot):
                                 ),
                             ),
                             related_activity=activity['id'],
-                            scratch=json.dumps([
-                                comment['user']['id'],
-                                target['id'],
-                            ]))
+                            scratch=comment['user']['id'],
+                        )
 
                         # comment on the shoutout to link the reward
                         self.comment_create(

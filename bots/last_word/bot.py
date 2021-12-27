@@ -65,7 +65,7 @@ class LastWordBot(AbstractBasicBot):
                 [
                     x for x in self._flatten(
                         self.comment_tree(root=activity['id']))
-                    if x['user']['user_type'] == 'Person'
+                    if x['user']['user_type'] == 'person'
                 ],
                 key=lambda x: utils.localtime(x['created']),
             )
