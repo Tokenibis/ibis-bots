@@ -269,7 +269,7 @@ class StoryBot(AbstractBasicBot):
 
                 # send out reward
                 if scratch['entries'][-1]['user'][
-                        'user_type'] == 'Person' and scratch['entries'][-1][
+                        'user_type'] == 'person' and scratch['entries'][-1][
                             'user']['id'] not in [
                                 x['target']['id'] for x in self.reward_list(
                                     user=self.id,
