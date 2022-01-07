@@ -4,8 +4,6 @@ from ibots import utils
 from ibots.base import AbstractBasicBot
 
 ACTIVITY_DESCRIPTION = '''
-__ATTENTION__: Due to heightened shoutout participation (yay!), users can only make ONE shoutout per month, so use it wisely!
-
 Witnessed a random act of kindness? Want to spotlight your bff's
 latest feat of awesomeness? Tell the world about it here!
 
