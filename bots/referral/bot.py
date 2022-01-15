@@ -29,9 +29,9 @@ __Referrers__:
 
 {referrer_amounts}
 
-## ABQ's Least Profitable Pyramid Scheme
+## Past Referrals
 
-Here is the latest referral pyramid:
+Here is the latest referral tree:
 
 {pyramid}
 
