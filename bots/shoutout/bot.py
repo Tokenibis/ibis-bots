@@ -93,6 +93,10 @@ class ShoutoutBot(AbstractBasicBot):
             if activity_time.month != now_time.month or activity_time.year != now_time.year:
                 self.activity_update(id=activity['id'], active=False)
                 activity = self._new_activity(reward_amount)
+                rewards = self.reward_list(
+                    user=self.id,
+                    related_activity=activity['id'],
+                )
 
             if activity_time.month == 12:
                 next_time = now_time.replace(
