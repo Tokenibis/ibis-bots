@@ -137,7 +137,7 @@ class ReferralBot(AbstractBasicBot):
                 id=activity['id'],
                 title=ACTIVITY_TITLE,
                 description=ACTIVITY_DESCRIPTION.format(
-                    invite_link='https://{}/#/Person/PersonList'.format(
+                    invite_link='https://{}/#/person-list'.format(
                         self._endpoint.split('.', 1)[1]),
                     referred_amount='${:.2f}'.format(referred_amount / 100),
                     referrer_amounts='\n'.join(
